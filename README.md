@@ -8,6 +8,18 @@ This is that app. Offline first. Built with React Native + Expo. Primary target 
 
 ---
 
+## Screenshots
+
+| Home | History |
+| :---: | :---: |
+| <img src="docs/home.jpg" width="320" alt="Home screen with Start session, Log sauna, and recent sessions" /> | <img src="docs/history.jpg" width="320" alt="History list with duration and exercise counts" /> |
+
+| Exercises | Settings & sync |
+| :---: | :---: |
+| <img src="docs/exercises.jpg" width="320" alt="Searchable exercise library grouped by category" /> | <img src="docs/settings.jpg" width="320" alt="Local backup, Google Sheets sync, and library hints" /> |
+
+---
+
 ## Why I built it the way I did
 
 Three things drove every design choice:
