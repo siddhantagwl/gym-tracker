@@ -145,6 +145,33 @@ export function insertManualSession(params: {
   }
 }
 
+export function insertSaunaSession(params: {
+  durationMinutes: number;
+  temperatureC?: number;
+}): string {
+  const sessionId = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const start = new Date();
+  const end = new Date(start.getTime() + params.durationMinutes * 60_000);
+  const note = params.temperatureC != null ? `${params.temperatureC}°C` : "";
+
+  db.runSync(
+    `
+    INSERT INTO sessions (id, start_time, end_time, session_labels, note, source)
+    VALUES (?, ?, ?, ?, ?, ?);
+    `,
+    [
+      sessionId,
+      start.toISOString(),
+      end.toISOString(),
+      JSON.stringify(["Sauna"]),
+      note,
+      "manual",
+    ]
+  );
+
+  return sessionId;
+}
+
 export function getRecentSessions(limit: number = 3): RecentSession[] {
   const safeLimit = Math.max(1, Math.min(10, Number(limit) || 3));
 
@@ -215,8 +242,13 @@ export function insertSessionRaw(row: any) {
 }
 
 export function getWorkoutStats(): { thisWeek: number; currentStreak: number } {
+  // Exclude sauna sessions — they're recovery, not training, so they shouldn't
+  // extend the strength-training streak or the weekly count. A day with both a
+  // workout and a sauna still counts via the workout row.
   const rows = db.getAllSync(
-    `SELECT start_time FROM sessions WHERE note != '__DISCARDED__';`
+    `SELECT start_time FROM sessions
+     WHERE note != '__DISCARDED__'
+       AND session_labels NOT LIKE '%"Sauna"%';`
   ) as { start_time: string }[];
 
   if (rows.length === 0) return { thisWeek: 0, currentStreak: 0 };

@@ -200,9 +200,11 @@ export default function SessionDetailsScreen() {
                     ⏱ {durationMinutes} min
                   </Text>
                 )}
-                <Text style={{ color: colors.muted, marginRight: 12 }}>
-                  🏋 {exercises.length} exercises
-                </Text>
+                {!sessionLabels.includes("Sauna") && (
+                  <Text style={{ color: colors.muted, marginRight: 12 }}>
+                    🏋 {exercises.length} exercises
+                  </Text>
+                )}
                 {totalVolume > 0 && (
                   <Text style={{ color: colors.muted }}>
                     💪 {Math.round(totalVolume).toLocaleString()} kg
@@ -215,32 +217,35 @@ export default function SessionDetailsScreen() {
             <View
               style={{ flexDirection: "row", flexWrap: "wrap", marginTop: 6 }}
             >
-              {sessionLabels.map((label) => (
-                <View
-                  key={label}
-                  style={{
-                    paddingVertical: 2,
-                    paddingHorizontal: 10,
-                    borderRadius: 999,
-                    backgroundColor: "#0b1f14",
-                    borderWidth: 1,
-                    borderColor: "#39FF14",
-                    marginRight: 6,
-                    marginBottom: 4,
-                  }}
-                >
-                  <Text
+              {sessionLabels.map((label) => {
+                const isSauna = label === "Sauna";
+                return (
+                  <View
+                    key={label}
                     style={{
-                      color: "#39FF14",
-                      fontSize: 11,
-                      fontWeight: "700",
-                      letterSpacing: 0.3,
+                      paddingVertical: 2,
+                      paddingHorizontal: 10,
+                      borderRadius: 999,
+                      backgroundColor: isSauna ? "rgba(255,153,51,0.18)" : "#0b1f14",
+                      borderWidth: 1,
+                      borderColor: isSauna ? "rgba(255,153,51,0.7)" : "#39FF14",
+                      marginRight: 6,
+                      marginBottom: 4,
                     }}
                   >
-                    {label}
-                  </Text>
-                </View>
-              ))}
+                    <Text
+                      style={{
+                        color: isSauna ? "rgba(255,178,102,0.98)" : "#39FF14",
+                        fontSize: 11,
+                        fontWeight: "700",
+                        letterSpacing: 0.3,
+                      }}
+                    >
+                      {label}
+                    </Text>
+                  </View>
+                );
+              })}
             </View>
           ) : (
             <Text style={{ color: colors.muted, marginTop: 4 }}>Session</Text>

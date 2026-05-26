@@ -358,32 +358,35 @@ export default function HistoryScreen() {
                       marginTop: 8,
                     }}
                   >
-                    {item.sessionLabels.map((label) => (
-                      <View
-                        key={label}
-                        style={{
-                          paddingVertical: 4,
-                          paddingHorizontal: 12,
-                          borderRadius: 999,
-                          backgroundColor: "rgba(46,125,90,0.18)",
-                          borderWidth: 1,
-                          borderColor: "#3BAF75",
-                          marginRight: 6,
-                          marginBottom: 6,
-                        }}
-                      >
-                        <Text
+                    {item.sessionLabels.map((label) => {
+                      const isSauna = label === "Sauna";
+                      return (
+                        <View
+                          key={label}
                           style={{
-                            color: "#3BAF75",
-                            fontSize: 10,
-                            fontWeight: "800",
-                            letterSpacing: 0.2,
+                            paddingVertical: 4,
+                            paddingHorizontal: 12,
+                            borderRadius: 999,
+                            backgroundColor: isSauna ? "rgba(255,153,51,0.18)" : "rgba(46,125,90,0.18)",
+                            borderWidth: 1,
+                            borderColor: isSauna ? "rgba(255,153,51,0.7)" : "#3BAF75",
+                            marginRight: 6,
+                            marginBottom: 6,
                           }}
                         >
-                          {label}
-                        </Text>
-                      </View>
-                    ))}
+                          <Text
+                            style={{
+                              color: isSauna ? "rgba(255,178,102,0.98)" : "#3BAF75",
+                              fontSize: 10,
+                              fontWeight: "800",
+                              letterSpacing: 0.2,
+                            }}
+                          >
+                            {label}
+                          </Text>
+                        </View>
+                      );
+                    })}
                   </View>
                 ) : (
                   <View

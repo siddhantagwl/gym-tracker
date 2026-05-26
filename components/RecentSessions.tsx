@@ -153,31 +153,34 @@ export default function RecentSessions(props: { limit?: number }) {
               }}
             >
               {Array.isArray(s.sessionLabels) && s.sessionLabels.length > 0 ? (
-                s.sessionLabels.map((label) => (
-                  <View
-                    key={label}
-                    style={{
-                      paddingVertical: 2,
-                      paddingHorizontal: 8,
-                      borderRadius: 999,
-                      borderWidth: 1,
-                      marginRight: 6,
-                      marginBottom: 6,
-                      borderColor: "rgba(16,185,129,0.65)",
-                      backgroundColor: "rgba(16,185,129,0.12)",
-                    }}
-                  >
-                    <Text
+                s.sessionLabels.map((label) => {
+                  const isSauna = label === "Sauna";
+                  return (
+                    <View
+                      key={label}
                       style={{
-                        color: "rgba(16,185,129,0.95)",
-                        fontSize: 12,
-                        fontWeight: "600",
+                        paddingVertical: 2,
+                        paddingHorizontal: 8,
+                        borderRadius: 999,
+                        borderWidth: 1,
+                        marginRight: 6,
+                        marginBottom: 6,
+                        borderColor: isSauna ? "rgba(255,153,51,0.65)" : "rgba(16,185,129,0.65)",
+                        backgroundColor: isSauna ? "rgba(255,153,51,0.14)" : "rgba(16,185,129,0.12)",
                       }}
                     >
-                      {label}
-                    </Text>
-                  </View>
-                ))
+                      <Text
+                        style={{
+                          color: isSauna ? "rgba(255,178,102,0.98)" : "rgba(16,185,129,0.95)",
+                          fontSize: 12,
+                          fontWeight: "600",
+                        }}
+                      >
+                        {label}
+                      </Text>
+                    </View>
+                  );
+                })
               ) : (
                 <View
                   style={{

@@ -5,8 +5,9 @@ import { View, Text, Pressable } from "react-native";
 export default function IdleMode(props: {
   colors: { text: string; accent: string };
   onStart: (session: Session) => void;
+  onLogSauna: () => void;
 }) {
-  const { colors, onStart } = props;
+  const { colors, onStart, onLogSauna } = props;
 
   return (
     <View style={{ width: "100%", paddingHorizontal: 24 }}>
@@ -40,6 +41,23 @@ export default function IdleMode(props: {
       >
         <Text style={{ color: "#000", fontSize: 18, fontWeight: "600" }}>
           Start session
+        </Text>
+      </Pressable>
+
+      <Pressable
+        onPress={onLogSauna}
+        style={({ pressed }) => ({
+          marginTop: 10,
+          paddingVertical: 11,
+          borderRadius: 8,
+          alignItems: "center",
+          borderWidth: 1,
+          borderColor: "rgba(255,153,51,0.45)",
+          backgroundColor: pressed ? "rgba(255,153,51,0.12)" : "transparent",
+        })}
+      >
+        <Text style={{ color: "rgba(255,178,102,0.95)", fontSize: 15, fontWeight: "500" }}>
+          Log sauna
         </Text>
       </Pressable>
     </View>
