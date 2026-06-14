@@ -287,16 +287,15 @@ export default function SessionDetailsScreen() {
               ? (item.weightKg - previousMax).toFixed(1)
               : null;
 
-            // Build sparkline data (historical weights for same exercise + reps)
+            // Build sparkline data: this exercise's weight over time, across all rep
+            // counts, in chronological order. getAllExercises() is already ordered by
+            // start_time ASC and includes the current session's row — so we match by
+            // name only (matching reps too would strand progressive-overload sessions,
+            // where weight climbs as reps drop) and don't concat the current weight
+            // (that forced it to the end and zigzagged the line for older sessions).
             const historyWeights = getAllExercises()
-              .filter(
-                (ex) =>
-                  ex.name === item.name &&
-                  ex.reps === item.reps &&
-                  ex.sessionId !== sessionId,
-              )
-              .map((ex) => ex.weightKg)
-              .concat(item.weightKg); // include current
+              .filter((ex) => ex.name === item.name)
+              .map((ex) => ex.weightKg);
 
             let sparkPoints: string | null = null;
 
@@ -362,11 +361,14 @@ export default function SessionDetailsScreen() {
                     <View
                       style={{
                         flexDirection: "row",
-                        alignItems: "center",
+                        alignItems: "flex-start",
                         marginBottom: 4,
                       }}
                     >
-                      <Text style={{ color: colors.text, fontSize: 16 }}>
+                      <Text
+                        style={{ color: colors.text, fontSize: 16, flexShrink: 1 }}
+                        numberOfLines={2}
+                      >
                         {index + 1}. {item.name}
                       </Text>
 
@@ -374,6 +376,8 @@ export default function SessionDetailsScreen() {
                         <View
                           style={{
                             marginLeft: 8,
+                            marginTop: 1,
+                            flexShrink: 0,
                           }}
                         >
                           <View
