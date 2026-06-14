@@ -16,7 +16,7 @@ export default function ExerciseDetailsScreen() {
   useEffect(() => {
     if (!exerciseLibraryId) return;
     const rows = getExercisesByLibraryId(exerciseLibraryId);
-    setHistory(rows.reverse());
+    setHistory(rows);
   }, [exerciseLibraryId]);
 
   return (

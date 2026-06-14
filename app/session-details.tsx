@@ -44,18 +44,15 @@ export default function SessionDetailsScreen() {
       router.back();
     };
 
-    if (exerciseCount > 0) {
-      Alert.alert(
-        "Delete session?",
-        `This session contains ${exerciseCount} exercise(s). This cannot be undone.`,
-        [
-          { text: "Cancel", style: "cancel" },
-          { text: "Delete", style: "destructive", onPress: performDelete },
-        ],
-      );
-    } else {
-      performDelete();
-    }
+    const message =
+      exerciseCount > 0
+        ? `This session contains ${exerciseCount} exercise(s). This cannot be undone.`
+        : "This cannot be undone.";
+
+    Alert.alert("Delete session?", message, [
+      { text: "Cancel", style: "cancel" },
+      { text: "Delete", style: "destructive", onPress: performDelete },
+    ]);
   }
 
   useEffect(() => {
@@ -545,25 +542,27 @@ export default function SessionDetailsScreen() {
       <View style={{ paddingHorizontal: 16, paddingBottom: 24 }}>
         <Pressable
           onPress={handleDeleteSession}
+          hitSlop={6}
           style={{
             marginTop: 8,
             marginBottom: 36,
-            paddingVertical: 14,
-            borderRadius: 10,
+            alignSelf: "center",
+            paddingVertical: 8,
+            paddingHorizontal: 18,
+            borderRadius: 8,
             borderWidth: 1,
-            borderColor: "#ff3b30",
-            alignItems: "center",
-            backgroundColor: "#140d0d",
+            borderColor: "#5a2a28",
+            backgroundColor: "transparent",
           }}
         >
           <Text
             style={{
-              color: "#ff3b30",
-              fontSize: 15,
-              fontWeight: "700",
+              color: "#ff6b6b",
+              fontSize: 13,
+              fontWeight: "600",
             }}
           >
-            Delete Session
+            Delete session
           </Text>
         </Pressable>
       </View>
