@@ -4,7 +4,7 @@
 
 I built Sadhana because every gym app I tried felt like it was made for someone else. Onboarding flows, social feeds, an account to make before I could log anything. I just wanted to track my sets and not lose them when my phone went to sleep mid-workout.
 
-This is that app. Offline first. Built with React Native + Expo. Primary target is **Android** coz I don't own an iPhone, but cant be easily extended for ios, thanks to expo :)
+This is that app. Offline first. Built with React Native + Expo. Primary target is **Android** coz I don't own an iPhone, but CAN be easily extended for IOS, thanks to expo :)
 
 ---
 
