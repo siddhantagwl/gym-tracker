@@ -111,6 +111,12 @@ export default function SettingsScreen() {
   const sessions = getAllSessions();
   const exercises = getAllExercises();
 
+  // sessions are sorted start_time DESC, so [0] is the newest workout.
+  const newestActivity = sessions[0]?.startTime ?? null;
+  const hasUnpushed =
+    newestActivity !== null &&
+    (!lastSync || new Date(newestActivity) > new Date(lastSync));
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#000" }}>
       <View style={{ flex: 1, padding: 24 }}>
@@ -209,7 +215,7 @@ export default function SettingsScreen() {
       <View style={{ flexDirection: "row", gap: 8 }}>
         <Pressable
           onPress={async () => {
-            if (syncing) return;
+            if (syncing || !hasUnpushed) return;
 
             try {
               setSyncing(true);
@@ -223,21 +229,33 @@ export default function SettingsScreen() {
               setSyncing(false);
             }
           }}
-          disabled={syncing}
+          disabled={syncing || !hasUnpushed}
           style={({ pressed }) => ({
             flex: 1,
-            backgroundColor: syncing ? "#1f5fa8" : "#2D8CFF",
+            backgroundColor: syncing
+              ? "#1f5fa8"
+              : hasUnpushed
+                ? "#2D8CFF"
+                : "#1a2a3a",
             paddingVertical: 14,
             borderRadius: 8,
             alignItems: "center",
-            opacity: syncing ? 0.6 : pressed ? 0.85 : 1,
+            borderWidth: 1,
+            borderColor: hasUnpushed ? "#2D8CFF" : "#2a3a4a",
+            opacity: syncing ? 0.6 : hasUnpushed ? (pressed ? 0.85 : 1) : 0.55,
           })}
         >
-          <Text style={{ color: "#fff", fontSize: 13, fontWeight: "600" }}>
+          <Text
+            style={{
+              color: hasUnpushed ? "#fff" : "rgba(255,255,255,0.6)",
+              fontSize: 13,
+              fontWeight: "600",
+            }}
+          >
             {syncing ? "Pushing…" : "Push history"}
           </Text>
           <Text style={{ color: "rgba(255,255,255,0.7)", fontSize: 10, marginTop: 2 }}>
-            ↑ to Sheets
+            {syncing ? "↑ to Sheets" : hasUnpushed ? "↑ to Sheets" : "up to date"}
           </Text>
         </Pressable>
 
